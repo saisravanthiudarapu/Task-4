@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Listing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="todo.html">To-Do</a>
+  </nav>
+
+  <h1>Product Listing</h1>
+  <div class="filters">
+    <select id="categoryFilter">
+      <option value="">All Categories</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Accessories">Accessories</option>
+    </select>
+    <select id="sortFilter">
+      <option value="">Sort By</option>
+      <option value="priceAsc">Price: Low to High</option>
+      <option value="priceDesc">Price: High to Low</option>
+    </select>
+  </div>
+  <div id="products"></div>
+
+  <script>
+    const products = [
+      {name: "Laptop", category: "Electronics", price: 800},
+      {name: "Shirt", category: "Clothing", price: 20},
+      {name: "Phone", category: "Electronics", price: 600},
+      {name: "Jeans", category: "Clothing", price: 40},
+      {name: "Headphones", category: "Accessories", price: 50},
+      {name: "Watch", category: "Accessories", price: 120}
+    ];
+
+    function renderProducts() {
+      let filtered = [...products];
+      const category = document.getElementById("categoryFilter").value;
+      const sort = document.getElementById("sortFilter").value;
+
+      if(category) filtered = filtered.filter(p => p.category === category);
+      if(sort === "priceAsc") filtered.sort((a,b) => a.price - b.price);
+      if(sort === "priceDesc") filtered.sort((a,b) => b.price - a.price);
+
+      const container = document.getElementById("products");
+      container.innerHTML = "";
+      filtered.forEach(p => {
+        container.innerHTML += `<div class="product"><h3>${p.name}</h3><p>${p.category}</p><p>$${p.price}</p></div>`;
+      });
+    }
+
+    document.getElementById("categoryFilter").addEventListener("change", renderProducts);
+    document.getElementById("sortFilter").addEventListener("change", renderProducts);
+
+    renderProducts();
+  </script>
+</body>
+</html>
